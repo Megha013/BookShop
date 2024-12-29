@@ -1,0 +1,140 @@
+﻿@model IEnumerable<BookShop.Models.Cart>
+@{
+    ViewData["Title"] = "Cart";
+}
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title></title>
+    <script>
+  
+       
+        function increaseQuantity(Cartid) {
+            // Select the quantity input field by its ID
+            let quantityInput = document.getElementById("quantity_" + Cartid);
+            if (quantityInput) {
+                let currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1; // Increment value
+
+            }
+        }
+
+        function decreaseQuantity(Cartid) {
+            // Select the quantity input field by its ID
+            let quantityInput = document.getElementById("quantity_" + Cartid);
+            if (quantityInput) {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) { // Ensure the value doesn't go below 1
+                    quantityInput.value = currentValue - 1; // Decrement value
+                }
+            }
+        }
+
+        
+    </script>    
+    </head>
+    <body>
+
+@if (!Model.Any())
+                {
+                        <h4 colspan="5" class="text-center">No product available in cart</h4>
+                        <div class="d-flex justify-content-center">
+                          @*   <img src="~/Navbar/nocart.png" width="600px" height="500px" alt="Alternate Text" />*@
+           
+        </div>
+        <br />
+        <br />
+        <br />
+       
+                }
+                else
+                {
+                   
+                    <span style="color:red">
+            @ViewBag.Error
+        </span>
+ <table class="table">
+    <thead>
+        <tr>  
+            <th>
+               
+            </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImgUrl)
+                    </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Total)
+                    </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if(Model.Any()){
+            
+         @foreach (var item in Model) {    
+        <tr>
+                           
+
+                            <td>
+                                <img src="@Url.Content(item.ImgUrl)" height="200" width="200" />
+                            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                        
+                            <td>
+                                <form method="post" action="@Url.Action("UpdateQuantity", "Cart")">
+                                    <input type="hidden" name="Cartid" value="@item.CartId" />
+
+                                    <!-- Decrease Button -->
+                                    <button type="button" onclick="decreaseQuantity(@item.CartId)" class="btn btn-secondary">-</button>
+
+                                    <!-- Quantity Input -->
+                                    <input type="number" id="quantity_@item.CartId" name="Quantity" value="@item.Quantity" min="1" style="width: 60px; text-align: center;" />
+
+                                    <!-- Increase Button -->
+                                    <button type="button" onclick="increaseQuantity(@item.CartId)" class="btn btn-secondary">+</button>
+                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <!-- Submit Button -->
+                                    <button type="submit" class="btn btn-primary">Update</button>
+
+                                </form>
+                            </td>
+                            <td>
+                                <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Cart" asp-action="Delete" asp-route-id="@item.CartId">
+                                    Remove
+                                </a>
+                            </td>
+                            
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+         
+        </tr>  
+}
+<tr>
+  @ViewBag.Error
+</tr>
+}           
+    </tbody>
+</table>
+        @* <form asp-action="PlaceOrder" asp-controller="Cart" method="post">
+            <button type="submit" class="btn btn-success">Place Order</button>
+        </form> *@
+}
+</body>
+</html>

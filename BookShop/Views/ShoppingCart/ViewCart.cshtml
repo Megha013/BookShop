@@ -1,0 +1,47 @@
+﻿@model BookShop.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "ViewCart";
+}
+<h1>Shopping Cart </h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Book Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+
+      </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.CartItems)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(item.Book.ImgUrl)" height="200" width="200" />
+                </td>
+                <td>@item.Book.BookName</td>
+                <td>@item.Book.Price</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Book.Price * item.Quantity)</td>
+                <td>
+                    <a asp-controller="ShoppingCart" asp-action="RemoveItems" asp-route-id="@item.Book.BookId" class="btn btn-danger">Remove</a>
+                </td>
+            </tr>
+        }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total:</td>
+                <td>@Model.TotalPrice?.ToString("C")</td>
+
+            </tr>
+        
+    </tbody>
+</table>
+<a asp-controller="ShoppingCart" asp-action="PurchaseItems" class="btn btn-primary">Purchase</a>
+

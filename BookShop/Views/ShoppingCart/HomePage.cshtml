@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Orderdetails>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+<body>
+    <h1>Order Summary</h1>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>  
+                <th>Book Id</th>
+                <td>Book Name</td>
+                <th>User Id</th> 
+                <th>User Name</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                     @* <td>@order.BookName</td> *@
+                     <td>@order.BookId</td>
+                    <td>@order.BookName</td>
+                     <td>@order.UserId</td>
+                    <td>@order.UserName</td>
+                    <td>@order.Quantity</td>
+                    <td>@order.TotalPrice.ToString("C")</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+

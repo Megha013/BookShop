@@ -1,0 +1,57 @@
+﻿@model BookShop.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <h4>Book Details</h4>
+    <input type="hidden" value="@Model.BookId" />
+    <hr />
+    <dl class="row">
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BookName)
+        </dd>
+      
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImgUrl)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Url.Content(Model.ImgUrl)" height="200" width="200" />
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-danger">Back</a>
+    <a class="btn btn primary" asp-area="" asp-route-id="@Model.BookId" asp-controller="ShoppingCart" asp-action="AddToCart"> Add To Cart</a>
+
+
+   @* @Html.ActionLink("Add To Cart", "AddToCart", "ShoppingCart", new { bookid = Model.Book_Id }, new { @class = "btn btn-sm btn-warning w-60 text-center" }) <br />*@
+
+</div>

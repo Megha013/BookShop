@@ -1,0 +1,95 @@
+﻿@model IEnumerable<BookShop.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{
+    ViewData["Title"] = "Book List";
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+
+    }
+}
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-controller="Book" asp-action="Index" asp-route-pg="@pge"> @pge </a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<p>
+    <a asp-action="Create">Add Book</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImgUrl)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th style="width:30%"> Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <img src="@Url.Content(item.ImgUrl)" height="200" width="200" />
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+                <td align="center">
+                @Html.ActionLink("Edit", "Edit", new {  id=item.BookId  },new{@class="btn btn-primary"}) 
+                    @Html.ActionLink("Details", "Details", new { id = item.BookId }, new { @class = "btn btn-success" }) 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BookId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
